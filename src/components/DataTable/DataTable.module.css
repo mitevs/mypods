@@ -1,0 +1,11 @@
+.table {
+    width: 100%;
+}
+
+.tableHeader {
+    text-align: left;
+}
+
+.activeSortColumn {
+    color: red;
+}
