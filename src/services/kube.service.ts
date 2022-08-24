@@ -14,7 +14,10 @@ export class KubeService {
       name: item.metadata.name,
       namespace: item.metadata.namespace,
       createdAt: new Date(item.metadata.creationTimestamp), // might be necessary to handle the parsing with a specific format here
-      labels: item.metadata.labels,
+      labels: Object.entries(item.metadata.labels).map(([key, value]) => ({
+        name: key,
+        value: value,
+      })),
       status: item.status.phase,
     }));
 

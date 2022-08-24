@@ -1,16 +1,18 @@
 import { FC, useCallback, useState } from "react";
 import { DataTable, DataTableColumn } from "../DataTable";
-
-import "./App.css";
 import { usePodData } from "../../hooks/usePodData";
 import { formatDate } from "../../utils/dates";
+import { Badge } from "../Badge";
+import { Status } from "../Status";
+
+import "./App.css";
 
 export const App: FC = () => {
   const [sort, setSort] = useState<Sort<Pod>>();
   const { pods } = usePodData(sort);
 
   // table colum config
-  const columns: DataTableColumn[] = [
+  const columns: DataTableColumn<Pod>[] = [
     {
       title: "Name",
       key: "name",
@@ -26,6 +28,7 @@ export const App: FC = () => {
       title: "Status",
       key: "status",
       icon: "fa-rotate",
+      format: (status: PodStatus) => <Status status={status} />,
     },
     {
       title: "Age",
@@ -36,12 +39,18 @@ export const App: FC = () => {
     {
       title: "Labels",
       key: "labels",
-      format: (labels: { [key: string]: string }) => {
-        return Object.keys(labels)
-          .map((key) => `${key}: ${labels[key]}`)
-          .join(", ");
+      format: (labels: PodLabel[]) => {
+        return (
+          <>
+            {labels.map(({ name, value }) => (
+              <Badge key={name}>
+                <strong>{name}</strong>: {value}
+              </Badge>
+            ))}
+          </>
+        );
       },
-      width: "15%",
+      width: "25%",
       icon: "fa-tags",
     },
   ];

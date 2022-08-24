@@ -1,6 +1,5 @@
 import React, {
   ReactElement,
-  FC,
   useState,
   useCallback,
   SyntheticEvent,
@@ -10,9 +9,9 @@ import { SortIcon } from "./SortIcon";
 
 import styles from "./DataTable.module.css";
 
-export type DataTableColumn = {
+export type DataTableColumn<T> = {
   title: string;
-  key: string;
+  key: keyof T;
   sortable?: boolean;
   filterable?: boolean;
   format?: (value: any) => string | ReactElement;
@@ -20,14 +19,14 @@ export type DataTableColumn = {
   icon?: string;
 };
 
-export type DataTableProps<T = any> = {
-  columns: DataTableColumn[];
+export type DataTableProps<T extends Base> = {
+  columns: DataTableColumn<T>[];
   items: T[];
   onSort?: (sort: Sort<T>) => void;
   onFilter?: (filters: { [key: string]: string }) => void;
 };
 
-export const DataTable: FC<DataTableProps> = (props) => {
+export const DataTable = <T extends Base>(props: DataTableProps<T>) => {
   const { columns, items, onSort } = props;
 
   const [sortColumn, setSortColumn] = useState("");
@@ -46,7 +45,7 @@ export const DataTable: FC<DataTableProps> = (props) => {
 
         // call onSort from props
         if (onSort) {
-          onSort({ key: newColumn, dir: newDirection });
+          onSort({ key: newColumn as keyof T, dir: newDirection });
         }
       }
     },
@@ -70,7 +69,7 @@ export const DataTable: FC<DataTableProps> = (props) => {
               <th
                 data-key={key}
                 onClick={onHeaderClick}
-                key={key}
+                key={key as string}
                 className={`${styles.tableHeader} ${
                   sortable && sortColumn === key && styles.tableHeaderActive
                 }`}
@@ -94,10 +93,10 @@ export const DataTable: FC<DataTableProps> = (props) => {
         {items.map((item) => (
           <tr key={item.uid}>
             {columns.map((column) => (
-              <td key={column.key}>
+              <td key={column.key as string}>
                 {column.format
-                  ? column.format(item[column.key])
-                  : item[column.key].toString()}
+                  ? column.format((item as any)[column.key])
+                  : (item as any)[column.key].toString()}
               </td>
             ))}
           </tr>

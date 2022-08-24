@@ -1,0 +1,15 @@
+.status i {
+    margin-right: 5px;
+}
+
+.Pending, .Unknown {
+    color: var(--gray);
+}
+
+.Running, .Succeeded {
+    color: var(--primary);
+}
+
+.Failed {
+    color: var(--red);
+}
