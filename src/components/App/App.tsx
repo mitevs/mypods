@@ -14,19 +14,24 @@ export const App: FC = () => {
     {
       title: "Name",
       key: "name",
+      icon: "fa-server",
+      width: "20%",
     },
     {
       title: "Namespace",
       key: "namespace",
+      icon: "fa-circle-nodes",
     },
     {
       title: "Status",
       key: "status",
+      icon: "fa-rotate",
     },
     {
       title: "Age",
       key: "createdAt",
       format: formatDate,
+      icon: "fa-clock",
     },
     {
       title: "Labels",
@@ -36,7 +41,8 @@ export const App: FC = () => {
           .map((key) => `${key}: ${labels[key]}`)
           .join(", ");
       },
-      width: "20%",
+      width: "15%",
+      icon: "fa-tags",
     },
   ];
 

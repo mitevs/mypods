@@ -16,6 +16,12 @@
     background-color: var(--primary-l1);
 }
 
+.tableHeaderIcon {
+    margin-left: 10px;
+    margin-top: 11px;
+    float: right;
+}
+
 .tableBody td {
     padding: 10px;
     border-bottom: 1px solid var(--primary-l3);
@@ -23,8 +29,4 @@
 
 .tableBody tr:nth-child(2n+1) td {
     background-color: var(--primary-l4);
-}
-
-.icon {
-    padding: 10px;
 }

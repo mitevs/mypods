@@ -6,6 +6,8 @@ import React, {
   SyntheticEvent,
 } from "react";
 
+import { SortIcon } from "./SortIcon";
+
 import styles from "./DataTable.module.css";
 
 export type DataTableColumn = {
@@ -15,6 +17,7 @@ export type DataTableColumn = {
   filterable?: boolean;
   format?: (value: any) => string | ReactElement;
   width?: string;
+  icon?: string;
 };
 
 export type DataTableProps<T = any> = {
@@ -22,22 +25,6 @@ export type DataTableProps<T = any> = {
   items: T[];
   onSort?: (sort: Sort<T>) => void;
   onFilter?: (filters: { [key: string]: string }) => void;
-};
-
-type SortIconProps = {
-  dir?: "asc" | "desc";
-};
-
-const SortIcon: FC<SortIconProps> = (props) => {
-  const { dir } = props;
-
-  return (
-    <i
-      className={`fa-solid fa-sort${
-        dir === "asc" ? "-up" : dir === "desc" ? "-down" : ""
-      } ${styles.icon}`}
-    ></i>
-  );
 };
 
 export const DataTable: FC<DataTableProps> = (props) => {
@@ -71,7 +58,13 @@ export const DataTable: FC<DataTableProps> = (props) => {
       <thead>
         <tr>
           {columns.map((column) => {
-            const { key, title, sortable = true, width = "auto" } = column;
+            const {
+              key,
+              title,
+              sortable = true,
+              width = "auto",
+              icon,
+            } = column;
 
             return (
               <th
@@ -79,14 +72,19 @@ export const DataTable: FC<DataTableProps> = (props) => {
                 onClick={onHeaderClick}
                 key={key}
                 className={`${styles.tableHeader} ${
-                  sortable && styles.tableHeaderActive
+                  sortable && sortColumn === key && styles.tableHeaderActive
                 }`}
                 style={{ width }}
               >
+                {title}
                 {sortable && (
                   <SortIcon dir={sortColumn === key ? sortDir : undefined} />
                 )}
-                {title}
+                {icon && (
+                  <i
+                    className={`fa-solid ${icon} ${styles.tableHeaderIcon}`}
+                  ></i>
+                )}
               </th>
             );
           })}
