@@ -24,6 +24,11 @@ export const App: FC = () => {
       key: "status",
     },
     {
+      title: "Age",
+      key: "createdAt",
+      format: formatDate,
+    },
+    {
       title: "Labels",
       key: "labels",
       format: (labels: { [key: string]: string }) => {
@@ -31,11 +36,7 @@ export const App: FC = () => {
           .map((key) => `${key}: ${labels[key]}`)
           .join(", ");
       },
-    },
-    {
-      title: "Age",
-      key: "createdAt",
-      format: formatDate,
+      width: "20%",
     },
   ];
 
@@ -44,8 +45,9 @@ export const App: FC = () => {
   }, []);
 
   return (
-    <div>
+    <>
+      <h1>Pods</h1>
       <DataTable columns={columns} items={pods} onSort={onSort} />
-    </div>
+    </>
   );
 };

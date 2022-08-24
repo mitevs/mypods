@@ -1,11 +1,30 @@
 .table {
     width: 100%;
+    border-collapse: collapse;
 }
 
 .tableHeader {
     text-align: left;
+    padding: 10px;
+    background-color: var(--primary-l2);
+    border-bottom: 1px solid var(--primary-l1);
+    color: var(--primary-l5);
+    cursor: pointer;
 }
 
-.activeSortColumn {
-    color: red;
+.tableHeaderActive, .tableHeader:hover {
+    background-color: var(--primary-l1);
+}
+
+.tableBody td {
+    padding: 10px;
+    border-bottom: 1px solid var(--primary-l3);
+}
+
+.tableBody tr:nth-child(2n+1) td {
+    background-color: var(--primary-l4);
+}
+
+.icon {
+    padding: 10px;
 }
