@@ -1,15 +1,18 @@
 import { FC, useCallback, useState } from "react";
 import { DataTable, DataTableColumn } from "../DataTable";
+import { PageTitle } from "../PageTitle";
 import { usePodData } from "../../hooks/usePodData";
 import { formatDate } from "../../utils/dates";
 import { Badge } from "../Badge";
 import { Status } from "../Status";
 
 import "./App.css";
+import { InputField } from "../InputField";
 
 export const App: FC = () => {
+  const [filters, setFilters] = useState<Filter<Pod>[]>([]);
   const [sort, setSort] = useState<Sort<Pod>>();
-  const { pods } = usePodData(sort);
+  const { pods } = usePodData(filters, sort);
 
   // table colum config
   const columns: DataTableColumn<Pod>[] = [
@@ -61,7 +64,18 @@ export const App: FC = () => {
 
   return (
     <>
-      <h1>Pods</h1>
+      <PageTitle title="Pods">
+        <InputField
+          placeholder="Name filter..."
+          onChange={(value) => {
+            if (!value && filters.length) {
+              setFilters([]);
+            } else {
+              setFilters([{ key: "name", value, type: "includes" }]);
+            }
+          }}
+        />
+      </PageTitle>
       <DataTable columns={columns} items={pods} onSort={onSort} />
     </>
   );

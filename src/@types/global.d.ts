@@ -45,3 +45,9 @@ declare type Sort<T> = {
   key: keyof T;
   dir: "asc" | "desc";
 };
+
+declare type Filter<T> = {
+  key: keyof T;
+  value: string;
+  type: "includes" | "match";
+};

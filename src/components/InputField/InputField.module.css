@@ -1,0 +1,23 @@
+.inputField input {
+    padding: 10px 0;
+    border: 0;
+    border-bottom: 2px solid var(--primary);
+    outline: none;
+    font-size: 1em;
+    color: var(--gray);
+    padding-right: 25px;
+}
+
+.inputField input:focus {
+    border-color: var(--primary-l2);
+}
+
+.inputField i {
+    cursor: pointer;
+    margin-left: -20px;
+    color: var(--primary);
+}
+
+.inputField i:hover {
+    color: var(--primary-l1);
+}

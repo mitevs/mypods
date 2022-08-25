@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { services } from "../services";
 
-export const usePodData = (sort?: Sort<Pod>) => {
+export const usePodData = (filters?: Filter<Pod>[], sort?: Sort<Pod>) => {
   const [pods, setPods] = useState<Pod[]>([]);
 
   // set timeout
   useEffect(() => {
-    services.kubeService.getPods(sort).then((pods) => {
+    services.kubeService.getPods(filters, sort).then((pods) => {
       setPods(pods);
     });
-  }, [sort]);
+  }, [filters, sort]);
 
   return { pods };
 };

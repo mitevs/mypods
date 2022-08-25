@@ -2,14 +2,11 @@ import { config } from "../config/env";
 import { sortArray } from "../utils/arrays";
 
 export class KubeService {
-  async getPods(sort?: {
-    key: keyof Pod;
-    dir: "asc" | "desc";
-  }): Promise<Pod[]> {
+  async getPods(filters?: Filter<Pod>[], sort?: Sort<Pod>): Promise<Pod[]> {
     const res = await fetch(`${config.kubeApi}/pods`);
     const payload: ApiPodList = await res.json();
 
-    const pods = payload.items.map<Pod>((item) => ({
+    let pods = payload.items.map<Pod>((item) => ({
       uid: item.metadata.uid,
       name: item.metadata.name,
       namespace: item.metadata.namespace,
@@ -22,6 +19,29 @@ export class KubeService {
     }));
 
     // apply filters => should be done on the api side in case paging exists
+    if (Array.isArray(filters)) {
+      pods = pods.filter((pod: Pod) => {
+        let includePod = true;
+
+        for (let filter of filters) {
+          if (
+            filter.type === "includes" &&
+            !pod[filter.key].toString().includes(filter.value)
+          ) {
+            includePod = false;
+            break;
+          } else if (
+            filter.type === "match" &&
+            pod[filter.key] !== filter.value
+          ) {
+            includePod = false;
+            break;
+          }
+        }
+
+        return includePod;
+      });
+    }
 
     // apply sort => should be done on the api side in case paging exists
     if (sort?.key && sort?.dir) {
