@@ -97,6 +97,13 @@ export const DataTable = <T extends Base>(props: DataTableProps<T>) => {
         </tr>
       </thead>
       <tbody className={styles.tableBody}>
+        {!items.length && (
+          <tr>
+            <td className={styles.tableNoDataCell} colSpan={columns.length}>
+              No pods found...
+            </td>
+          </tr>
+        )}
         {items.map((item) => (
           <tr key={item.uid}>
             {columns.map((column) => (
