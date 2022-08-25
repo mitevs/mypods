@@ -4,17 +4,40 @@ import { PageTitle } from "../PageTitle";
 import { InputField } from "../InputField";
 import { Badge } from "../Badge";
 import { Status } from "../Status";
+import { MultiCheckbox } from "../MultiCheckbox";
 import { usePodData } from "../../hooks/usePodData";
+import { useFilters } from "../../hooks/useFilters";
 import { formatDate } from "../../utils/dates";
 
-import "./App.css";
-import { useFilters } from "../../hooks/useFilters";
+import styles from "./App.module.css";
 
 export const App: FC = () => {
   const { filters, switchFilter, switchFilterValue } = useFilters<Pod>();
-
   const [sort, setSort] = useState<Sort<Pod>>();
   const { pods } = usePodData(filters, sort);
+
+  const statusOptions = [
+    {
+      value: "Pending",
+      label: "Pending",
+    },
+    {
+      value: "Running",
+      label: "Running",
+    },
+    {
+      value: "Succeeded",
+      label: "Succeeded",
+    },
+    {
+      value: "Failed",
+      label: "Failed",
+    },
+    {
+      value: "Unknown",
+      label: "Unknown",
+    },
+  ];
 
   // table colum config
   const columns: DataTableColumn<Pod>[] = [
@@ -69,23 +92,17 @@ export const App: FC = () => {
   return (
     <>
       <PageTitle title="Pods">
+        <MultiCheckbox
+          className={styles.multicheckbox}
+          options={statusOptions}
+          onChange={(value, checked) =>
+            switchFilterValue("status", value, checked)
+          }
+        />
+
         <InputField
           placeholder="Name filter..."
           onChange={(value) => switchFilter("name", value, !!value)}
-        />
-        Running:{" "}
-        <input
-          type="checkbox"
-          onChange={(e) =>
-            switchFilterValue("status", "Running", e.target.checked)
-          }
-        />
-        Pending:{" "}
-        <input
-          type="checkbox"
-          onChange={(e) =>
-            switchFilterValue("status", "Pending", e.target.checked)
-          }
         />
       </PageTitle>
       <DataTable columns={columns} items={pods} onSort={onSort} />

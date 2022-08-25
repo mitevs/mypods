@@ -11,10 +11,8 @@ export const PageTitle: FC<PageTitleProps> = (props) => {
   const { title, children } = props;
   return (
     <div className={styles.pageTitle}>
-      <span>
-        <h1>{title}</h1>
-      </span>
-      <span>{children}</span>
+      <h1>{title}</h1>
+      <div className={styles.pageControls}>{children}</div>
     </div>
   );
 };
