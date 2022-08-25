@@ -1,0 +1,20 @@
+.footer {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+    padding: 10px;
+    background-color: var(--primary);
+    color: var(--white);
+    color: var(--primary-l3);
+}
+
+.footerLink {
+    text-decoration: none;
+    color: var(--primary-l3);
+    margin-left: 10px;
+}
+
+.footerLink:hover {
+    color: var(--primary-l4);
+}

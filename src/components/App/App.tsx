@@ -7,7 +7,8 @@ import { Status } from "../Status";
 import { MultiCheckbox } from "../MultiCheckbox";
 import { usePodData } from "../../hooks/usePodData";
 import { useFilters } from "../../hooks/useFilters";
-import { formatDate } from "../../utils/dates";
+import { Datetime } from "../Datetime";
+import { Footer } from "../Footer";
 
 import styles from "./App.module.css";
 
@@ -59,9 +60,9 @@ export const App: FC = () => {
       format: (status: PodStatus) => <Status status={status} />,
     },
     {
-      title: "Age",
+      title: "Created",
       key: "createdAt",
-      format: formatDate,
+      format: (date: Date) => <Datetime date={date} />,
       icon: "fa-clock",
     },
     {
@@ -87,25 +88,27 @@ export const App: FC = () => {
     setSort({ key, dir });
   }, []);
 
-  console.log("FILTERS: ", filters);
-
   return (
     <>
-      <PageTitle title="Pods">
-        <MultiCheckbox
-          className={styles.multicheckbox}
-          options={statusOptions}
-          onChange={(value, checked) =>
-            switchFilterValue("status", value, checked)
-          }
-        />
+      <main>
+        <PageTitle title="Kubernetes Pods">
+          <MultiCheckbox
+            className={styles.multicheckbox}
+            options={statusOptions}
+            onChange={(value, checked) =>
+              switchFilterValue("status", value, checked)
+            }
+          />
 
-        <InputField
-          placeholder="Name filter..."
-          onChange={(value) => switchFilter("name", value, !!value)}
-        />
-      </PageTitle>
-      <DataTable columns={columns} items={pods} onSort={onSort} />
+          <InputField
+            placeholder="Name filter..."
+            onChange={(value) => switchFilter("name", value, !!value)}
+          />
+        </PageTitle>
+        <DataTable columns={columns} items={pods} onSort={onSort} />
+      </main>
+
+      <Footer />
     </>
   );
 };

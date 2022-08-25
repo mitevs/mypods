@@ -15,7 +15,7 @@ export class KubeService {
         name: key,
         value: value,
       })),
-      status: i % 2 !== 0 ? "Pending" : item.status.phase,
+      status: item.status.phase,
     }));
 
     // apply filters => should be done on the api side in case paging exists
