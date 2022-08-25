@@ -6,6 +6,12 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### `yarn k8s-proxy`
+
+This will call run the kubectl proxy and additional local-web-server to proxy calls to the kubectl proxy becaused of CORS issues during local development.
+The local-web-server allows CORS by default and forwards all requests to the kubectl proxy. In case this is not needed, you can just configure different `kubeApi` in the [env](src/config/env.ts)
+that will point directly to the kubectl proxy. Since the local-web-server proxy is not modifying any of the returned json from the /pods endpoint, this should work without a problem.
+
 ### `yarn start`
 
 Runs the app in the development mode.\
@@ -45,8 +51,3 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-
-
-## Minikube config
-
-For CORS, we need to run: `minikube start --extra-config "apiserver.cors-allowed-origins=["http://\*"]"`

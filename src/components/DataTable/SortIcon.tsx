@@ -6,6 +6,7 @@ export type SortIconProps = {
   dir?: "asc" | "desc";
 };
 
+// generates the sort icons in the headers, makes it easier to keep the DataTable a bit cleaner
 export const SortIcon: FC<SortIconProps> = (props) => {
   const { dir } = props;
 

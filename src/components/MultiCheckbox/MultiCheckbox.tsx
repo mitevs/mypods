@@ -6,6 +6,7 @@ export type MultiCheckboxProps = {
   onChange?: (value: string, checked: boolean) => void;
 } & Omit<HTMLAttributes<HTMLElement>, "onChange">; // allow for various html attributes, need className to allow customizatioin on the root element, but avoid onChange, because we are redefining it here
 
+// renders multiple checkboxes in a row for the provided options
 export const MultiCheckbox: FC<MultiCheckboxProps> = (props) => {
   const { options, onChange, className } = props;
 

@@ -7,6 +7,7 @@ export type PageTitleProps = {
   children?: ReactNode;
 };
 
+// allwos for rendering the page title and custom page controls where the filters are injected in the App component when the composition is done
 export const PageTitle: FC<PageTitleProps> = (props) => {
   const { title, children } = props;
   return (

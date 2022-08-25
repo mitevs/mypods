@@ -8,6 +8,7 @@ export type InputFieldProps = {
   onChange?: (value: string) => void;
 };
 
+// custom input field with clear input feature
 export const InputField: FC<InputFieldProps> = (props) => {
   const { onChange } = props;
   const { value, onChange: onInputChange, clear } = useInput(onChange);

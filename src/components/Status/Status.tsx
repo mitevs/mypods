@@ -14,6 +14,7 @@ export type StatusProps = {
   status: PodStatus;
 };
 
+// renders the status for the pod with a custom icon per status
 export const Status: FC<StatusProps> = (props) => {
   const { status } = props;
   return (

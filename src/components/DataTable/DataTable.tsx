@@ -19,13 +19,20 @@ export type DataTableColumn<T> = {
   icon?: string;
 };
 
+// the DataTableProps allow passing onSort that will get triggered
+// when the user clicks any of the sort icons in the headers, the sorting is left to the DataTable user because most of the time for big data sets the sorting will be done on the API side
 export type DataTableProps<T extends Base> = {
   columns: DataTableColumn<T>[];
   items: T[];
   onSort?: (sort: Sort<T>) => void;
-  onFilter?: (filters: { [key: string]: string }) => void;
 };
 
+// very flexible data table component that allows for configuring various aspects through the DataTableColumn[] props
+// the user can provide the items and the column configs to describe the structure of the individual items
+// the DataTable will then loop through the items and use the column config to pull the correct data keys in the individual row cells
+// additionally the user can make the columns sortable or filterable, give the width in %, the icon for the colum header and custom format callback that can modify the plain item[key] value
+// before rendering it into the cell. This way the user can render custom components in the cells instead of just the plain text.
+// E.g. this is how the labels are rendered as Badges and the date as Datetime component that adds additional icon for the time portion of the createdAt
 export const DataTable = <T extends Base>(props: DataTableProps<T>) => {
   const { columns, items, onSort } = props;
 
@@ -94,7 +101,7 @@ export const DataTable = <T extends Base>(props: DataTableProps<T>) => {
           <tr key={item.uid}>
             {columns.map((column) => (
               <td key={column.key as string}>
-                {column.format
+                {column.format // if the column specifies format callback, apply it, otherwise just render the item[key] value
                   ? column.format((item as any)[column.key])
                   : (item as any)[column.key].toString()}
               </td>

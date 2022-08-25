@@ -1,5 +1,6 @@
 import { useCallback, useState, ChangeEvent } from "react";
 
+// custom hook to handle input state change
 export const useInput = (
   onChange?: (value: string) => void,
   initialValue = ""

@@ -13,6 +13,7 @@ const MONTH = [
   "Dec",
 ];
 
+// Format date using the provided format string
 export const formatDate = (date: Date, format = "MMM DD, YYYY; hh:mm") => {
   const d = date.getDate();
   const m = date.getMonth() + 1;
