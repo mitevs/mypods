@@ -6,7 +6,7 @@ export class KubeService {
     const res = await fetch(`${config.kubeApi}/pods`);
     const payload: ApiPodList = await res.json();
 
-    let pods = payload.items.map<Pod>((item) => ({
+    let pods = payload.items.map<Pod>((item, i) => ({
       uid: item.metadata.uid,
       name: item.metadata.name,
       namespace: item.metadata.namespace,
@@ -15,24 +15,19 @@ export class KubeService {
         name: key,
         value: value,
       })),
-      status: item.status.phase,
+      status: i % 2 !== 0 ? "Pending" : item.status.phase,
     }));
 
     // apply filters => should be done on the api side in case paging exists
-    if (Array.isArray(filters)) {
-      pods = pods.filter((pod: Pod) => {
+    if (filters?.length) {
+      pods = pods.filter((pod) => {
         let includePod = true;
 
-        for (let filter of filters) {
+        for (const filter of filters) {
           if (
-            filter.type === "includes" &&
-            !pod[filter.key].toString().includes(filter.value)
-          ) {
-            includePod = false;
-            break;
-          } else if (
-            filter.type === "match" &&
-            pod[filter.key] !== filter.value
+            !Array.from(filter.values).some((value) =>
+              pod[filter.key].toString().includes(value)
+            )
           ) {
             includePod = false;
             break;

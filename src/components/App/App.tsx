@@ -1,16 +1,18 @@
 import { FC, useCallback, useState } from "react";
 import { DataTable, DataTableColumn } from "../DataTable";
 import { PageTitle } from "../PageTitle";
-import { usePodData } from "../../hooks/usePodData";
-import { formatDate } from "../../utils/dates";
+import { InputField } from "../InputField";
 import { Badge } from "../Badge";
 import { Status } from "../Status";
+import { usePodData } from "../../hooks/usePodData";
+import { formatDate } from "../../utils/dates";
 
 import "./App.css";
-import { InputField } from "../InputField";
+import { useFilters } from "../../hooks/useFilters";
 
 export const App: FC = () => {
-  const [filters, setFilters] = useState<Filter<Pod>[]>([]);
+  const { filters, switchFilter, switchFilterValue } = useFilters<Pod>();
+
   const [sort, setSort] = useState<Sort<Pod>>();
   const { pods } = usePodData(filters, sort);
 
@@ -62,18 +64,28 @@ export const App: FC = () => {
     setSort({ key, dir });
   }, []);
 
+  console.log("FILTERS: ", filters);
+
   return (
     <>
       <PageTitle title="Pods">
         <InputField
           placeholder="Name filter..."
-          onChange={(value) => {
-            if (!value && filters.length) {
-              setFilters([]);
-            } else {
-              setFilters([{ key: "name", value, type: "includes" }]);
-            }
-          }}
+          onChange={(value) => switchFilter("name", value, !!value)}
+        />
+        Running:{" "}
+        <input
+          type="checkbox"
+          onChange={(e) =>
+            switchFilterValue("status", "Running", e.target.checked)
+          }
+        />
+        Pending:{" "}
+        <input
+          type="checkbox"
+          onChange={(e) =>
+            switchFilterValue("status", "Pending", e.target.checked)
+          }
         />
       </PageTitle>
       <DataTable columns={columns} items={pods} onSort={onSort} />

@@ -42,12 +42,11 @@ declare type Pod = {
 } & Base;
 
 declare type Sort<T> = {
-  key: keyof T;
+  key: keyof T; // sort only for keys on the generic type T
   dir: "asc" | "desc";
 };
 
 declare type Filter<T> = {
-  key: keyof T;
-  value: string;
-  type: "includes" | "match";
+  key: keyof T; // filter only for keys on the generic type T
+  values: Set<string>; // can have multiple values, in which case OR is used to apply the filter across all values
 };
