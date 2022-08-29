@@ -14,27 +14,25 @@
 
 :global(body) {
   margin: 0;
-  padding: 15px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--gray);
-  height: 100%;
-  overflow: hidden;
-}
-
-:global(html) {
-  height: 100%;
 }
 
 :global(main) {
   max-width: 1800px;
   width: 100%;
   margin: 0 auto;
+  padding: 15px;
 }
 
 .multicheckbox {
   margin-right: 30px;
+}
+
+:global(#root) {
+  padding-bottom: 60px;
 }
